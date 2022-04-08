@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  api:
+    container_name: pha-redirect
+    build:
+      context: ./
+      target: production
+    env_file: .env
+    depends_on:
+      - mongodb_container
+    ports:
+      - 3000:3000
+    # environment:
+    #   NODE_ENV: production
+    #   DB_HOST: db
+    #   DB_PORT: 5432
+    #   DB_USER: postgres
+    #   DB_PASSWORD: postgres
+    #   DB_NAME: postgres
+    links:
+      - mongodb_container
+    volumes:
+      - './:/src'
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
