@@ -1,35 +1,34 @@
 version: '3.8'
 services:
   api:
-    container_name: pha-redirect
+    container_name: pha-admin-be
+    restart: always 
     build:
       context: ./
-      target: production
     env_file: .env
     depends_on:
-      - mongodb_container
+      - mongodb
     ports:
       - 3000:3000
-    # environment:
-    #   NODE_ENV: production
-    #   DB_HOST: db
-    #   DB_PORT: 5432
-    #   DB_USER: postgres
-    #   DB_PASSWORD: postgres
-    #   DB_NAME: postgres
     links:
-      - mongodb_container
+      - mongodb
     volumes:
-      - './:/src'
-  mongodb_container:
+      - .:/admin-be
+    networks:
+      - admin-network
+  mongodb:
+    container_name: mongodb
     image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
     ports:
       - 27017:27017
     volumes:
-      - mongodb_data_container:/data/db
+      - ~/mongodb_data:/data/admin/db
+    networks:
+      - admin-network
 
 volumes:
-  mongodb_data_container:
+  mongodb_data:
+
+networks:
+  admin-network:
+    driver: bridge

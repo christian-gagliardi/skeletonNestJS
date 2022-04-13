@@ -5,10 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { appRoutes } from './app.routes';
 
 import { SentryModule } from '@ntegral/nestjs-sentry';
-import { QrModule } from './entities/qr/qr.module';
 import { StoreModule } from './entities/stores/store.module';
-import { ContractModule } from './entities/contracts/contract.module';
-import { AgentModule } from './entities/agents/agent.module';
 
 @Module({
   imports: [
@@ -20,10 +17,7 @@ import { AgentModule } from './entities/agents/agent.module';
     //   tracesSampleRate: 1.0,
     // }),
     DatabaseModule,
-    QrModule,
     StoreModule,
-    ContractModule,
-    AgentModule,
     RouterModule.register(appRoutes)
   ],
   controllers: [],

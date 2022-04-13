@@ -2,17 +2,17 @@ FROM node:16-alpine
 
 RUN apk add --no-cache git make gcc g++ yarn
 
-WORKDIR '/home/pha-bag'
+WORKDIR '/admin-be'
 
-COPY package.json .
-COPY yarn.lock .
+COPY package.json /admin-be
+COPY yarn.lock /admin-be
 
 RUN yarn
 
-COPY . .
+COPY . ./admin-be
 
 RUN yarn build
 
 EXPOSE 3000
 
-ENTRYPOINT ["yarn", "start:prod"]
+ENTRYPOINT ["yarn", "run", "dev"]
