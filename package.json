@@ -16,14 +16,14 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage --detectOpenHandles",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles",
+    "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles --forceExit",
     "docker:build": "docker build .",
     "docker:run": "docker-compose",
     "lint": "eslint \"{src,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" --config ./.prettierrc",
     "lint:fix": "eslint --fix",
     "prepare": "husky install",
-    "huskyPreCommit": "yarn run huskyPreCommit && yarn run lint && yarn run lint:fix && yarn run format"
+    "huskyPreCommit": "yarn run lint && yarn run lint:fix && yarn run format && yarn run test:e2e"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
