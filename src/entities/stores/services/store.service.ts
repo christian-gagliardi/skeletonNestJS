@@ -1,63 +1,60 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import {Inject, Injectable} from '@nestjs/common';
+import {Model} from 'mongoose';
 import config from '../../../config/index';
-import { StoreByIdInterface } from'../interfaces/storeById.interface';
-import { StoreInterface } from '../interfaces/store.interface';
-import { UpdateStoreDto } from '../interfaces/dto/updateStore.dto';
-import { HttpExceptionFilter } from 'src/filters/http-exception.filter';
-
+import {StoreByIdInterface} from '../interfaces/storeById.interface';
+import {StoreInterface} from '../interfaces/store.interface';
+import {UpdateStoreDto} from '../interfaces/dto/updateStore.dto';
+import {HttpExceptionFilter} from '../../../filters/http-exception.filter';
 
 @Injectable()
 export class StoreService {
-  constructor(
-    @Inject(config.STORE_MODEL) private storeModel: Model<any>
-  ) {}
+  constructor(@Inject(config.STORE_MODEL) private storeModel: Model<any>) {}
 
-  async getStoreDetails(id: StoreByIdInterface): Promise<StoreInterface> {
+  async getStoreDetails(id: string): Promise<StoreInterface> {
     try {
-      return this.storeModel.findOne({_id:id}).exec();
+      return this.storeModel.findOne({_id: id}).exec();
     } catch (err) {
-      throw new HttpExceptionFilter({message: err})
+      throw new HttpExceptionFilter({message: err});
     }
   }
 
-  async getStoresByName(name: string): Promise<StoreInterface[]>{
+  async getStoresByName(name: string): Promise<StoreInterface[]> {
     try {
       return this.storeModel.find({$text: {$search: name}}).exec();
     } catch (err) {
-      throw new HttpExceptionFilter({message: err})
+      throw new HttpExceptionFilter({message: err});
     }
   }
 
-  async getStoresByCityAndName(city: string, name: string): Promise<StoreInterface[]>{
+  async getStoresByCityAndName(city: string, name: string): Promise<StoreInterface[]> {
     try {
-      return this.storeModel.find({"$text": {$search: name}, "city": new RegExp(city, 'i')}).exec();
+      return this.storeModel.find({$text: {$search: name}, city: new RegExp(city, 'i')}).exec();
     } catch (err) {
-      throw new HttpExceptionFilter({message: err})
+      throw new HttpExceptionFilter({message: err});
     }
   }
 
-  async getStores(skip: number, limit: number): Promise<StoreInterface[]>{
+  async getStores(skip: number, limit: number): Promise<StoreInterface[]> {
     try {
       return this.storeModel.find({}).skip(skip).limit(limit).exec();
     } catch (err) {
-      throw new HttpExceptionFilter({message: err})
+      throw new HttpExceptionFilter({message: err});
     }
   }
 
-  async getStoresByCode(code: string): Promise<StoreInterface[]>{
+  async getStoresByCode(code: string): Promise<StoreInterface[]> {
     try {
       return this.storeModel.findOne({code}).exec();
     } catch (err) {
-      throw new HttpExceptionFilter({message: err})
+      throw new HttpExceptionFilter({message: err});
     }
   }
 
-  async getStoresByDistance(query:object, skip: number, limit: number): Promise<StoreInterface[]>{
+  async getStoresByDistance(query: object, skip: number, limit: number): Promise<StoreInterface[]> {
     try {
       return this.storeModel.find(query).skip(skip).limit(limit).exec();
     } catch (err) {
-      throw new HttpExceptionFilter({message: err})
+      throw new HttpExceptionFilter({message: err});
     }
   }
 
@@ -66,8 +63,7 @@ export class StoreService {
       const result = await this.storeModel.updateOne({_id: id}, {$set: store}).exec();
       return result;
     } catch (err) {
-      throw new HttpExceptionFilter({message: err})
+      throw new HttpExceptionFilter({message: err});
     }
   }
-
 }

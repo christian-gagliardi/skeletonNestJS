@@ -1,5 +1,5 @@
-import { ObjectId } from "mongoose";
+import {ObjectId} from 'mongoose';
 
 export interface StoreByIdInterface {
-    id: ObjectId;
+  id: ObjectId|string;
 }

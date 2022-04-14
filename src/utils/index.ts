@@ -1,5 +1,3 @@
-import sendEmail from './sendEmail/sendEmail'
+import sendEmail from './sendEmail/sendEmail';
 
-export {
-    sendEmail
-}
+export {sendEmail};
